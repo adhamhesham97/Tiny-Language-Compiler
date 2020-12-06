@@ -7,6 +7,7 @@
     "Tiny Language Compiler\\Tiny Language Compiler.vcxproj.filters": true,
     ".gitattributes": true,
     ".gitignore": true,
-    "Tiny Language Compiler.sln": true
+    "Tiny Language Compiler.sln": true,
+    ".vscode": true
   }
 }
