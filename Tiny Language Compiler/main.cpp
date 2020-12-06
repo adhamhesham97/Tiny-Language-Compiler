@@ -153,11 +153,11 @@ int main()
 	vector<string> tokenValue, tokenType;
 	scanner(input, tokenValue, tokenType);
 	ofstream outFile;
-	outFile.open("scanned Tiny code.txt");	// in same file directory
+	outFile.open("scanned Tiny code.txt");	// in same file directory 
 
 	for (int i = 0; i < tokenValue.size(); i++)
 	{
-		outFile << tokenValue[i] << " , " << tokenType[i] << endl;
+		outFile << tokenValue[i] << " , " << tokenType[i] << endl; // Printing the Tokens value & type
 	}
 	outFile.close();
 }

@@ -1,0 +1,5 @@
+## Tiny language scanner 
+
+Scanning Tiny language as input and parsing through each token to state it's type and value 
+
+Whole project is implemented using c++
