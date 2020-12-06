@@ -31,7 +31,7 @@ void scanner(string path, vector<string> &tokenValue, vector<string> &tokenType)
 	inFile.open(path);
 	string text;
 	bool comment = false;
-	while (inFile >> text)
+	while (inFile >> text) // Parsing the file line by line 
 	{
 		string token = "";	//empty string at the start of each line
 		for (int i = 0; i < text.length(); i++)	//loop on each letter in the line
@@ -128,7 +128,7 @@ void scanner(string path, vector<string> &tokenValue, vector<string> &tokenType)
 				// and the next letter isn't letter or number or underscore ( variable name is finished )
 				else if (!is_letter(text[i + 1]) && token != ":")
 				{
-					if (token[0] > '0' && token[0] < '9')	//starts with number means it's a number
+					if (token[0] > '0' && token[0] < '9')	//starts with number means it's a number 
 					{
 						tokenValue.push_back(token);
 						tokenType.push_back("Number");
