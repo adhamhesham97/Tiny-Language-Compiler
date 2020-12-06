@@ -31,7 +31,7 @@ void scanner(string path, vector<string> &tokenValue, vector<string> &tokenType)
 	inFile.open(path);
 	string text;
 	bool comment = false;
-	while (inFile >> text) // Parsing file line by line 
+	while (inFile >> text) // Parsing the file line by line 
 	{
 		string token = "";	//empty string at the start of each line
 		for (int i = 0; i < text.length(); i++)	//loop on each letter in the line
