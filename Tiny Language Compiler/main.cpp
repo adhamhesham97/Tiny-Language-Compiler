@@ -67,7 +67,7 @@ void scanner(string path, vector<string> &tokenValue, vector<string> &tokenType)
 					if (!is_letter(text[i + 1]))
 					{
 						tokenValue.push_back(token);
-						tokenType.push_back("Reserved");
+						tokenType.push_back("RESERVED");
 						token = "";	//empty string to start a new one
 					}
 				}
@@ -78,47 +78,47 @@ void scanner(string path, vector<string> &tokenValue, vector<string> &tokenType)
 					if (token == "+")
 					{
 						tokenValue.push_back(token);
-						tokenType.push_back("plus");
+						tokenType.push_back("PLUS");
 					}
 					else if (token == "-")
 					{
 						tokenValue.push_back(token);
-						tokenType.push_back("minus");
+						tokenType.push_back("MINUS");
 					}
 					else if (token == "<")
 					{
 						tokenValue.push_back(token);
-						tokenType.push_back("smaller");
+						tokenType.push_back("SMALLERTHAN");
 					}
 					else if (token == ">")
 					{
 						tokenValue.push_back(token);
-						tokenType.push_back("bigger");
+						tokenType.push_back("BIGGERTHAN");
 					}
 					else if (token == "/")
 					{
 						tokenValue.push_back(token);
-						tokenType.push_back("divide");
+						tokenType.push_back("DIVIDE");
 					}
 					else if (token == "*")
 					{
 						tokenValue.push_back(token);
-						tokenType.push_back("times");
+						tokenType.push_back("MULTIPLY");
 					}
 					else if (token == ";")
 					{
 						tokenValue.push_back(token);
-						tokenType.push_back("semicolon");
+						tokenType.push_back("SEMICOLON");
 					}
 					else if (token == ":=")
 					{
 						tokenValue.push_back(":=");
-						tokenType.push_back("assign");
+						tokenType.push_back("ASSIGN");
 					}
 					else if (token == "=")
 					{
 						tokenValue.push_back(token);
-						tokenType.push_back("equal");
+						tokenType.push_back("EQUAL");
 					}
 					token = ""; //empty string to start a new one
 				}
@@ -131,13 +131,13 @@ void scanner(string path, vector<string> &tokenValue, vector<string> &tokenType)
 					if (token[0] >= '0' && token[0] <= '9')	//starts with number means it's a number 
 					{
 						tokenValue.push_back(token);
-						tokenType.push_back("Number");
+						tokenType.push_back("NUMBER");
 						token = ""; //empty string to start a new one
 					}
 					else //otherwise it's a variable
 					{
 						tokenValue.push_back(token);
-						tokenType.push_back("Identifier");
+						tokenType.push_back("IDENTIFIER");
 						token = ""; //empty string to start a new one
 					}
 				}
