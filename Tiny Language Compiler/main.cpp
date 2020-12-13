@@ -22,7 +22,7 @@ bool is_reserved_word(string token) // Return true if token is reserved word
 
 bool is_symbol(string token) // Return true if token is a valid symbol 
 {
-	return token == "+" || token == "-" || token == "<" || token == ">" || token == "/" || token == "*" || token == "(" || token == ")" || token == ":=" || token == ";" || token == "=";
+	return token == "+" || token == "-" || token == "<" || token == "/" || token == "*" || token == "(" || token == ")" || token == ":=" || token == ";" || token == "=";
 }
 
 void scanner(string path, vector<string> &tokenValue, vector<string> &tokenType)
@@ -97,22 +97,17 @@ void scanner(string path, vector<string> &tokenValue, vector<string> &tokenType)
 					else if (token == "<")
 					{
 						tokenValue.push_back(token);
-						tokenType.push_back("SMALLERTHAN");
-					}
-					else if (token == ">")
-					{
-						tokenValue.push_back(token);
-						tokenType.push_back("BIGGERTHAN");
+						tokenType.push_back("LESSTHAN");
 					}
 					else if (token == "/")
 					{
 						tokenValue.push_back(token);
-						tokenType.push_back("DIVIDE");
+						tokenType.push_back("DIV");
 					}
 					else if (token == "*")
 					{
 						tokenValue.push_back(token);
-						tokenType.push_back("MULTIPLY");
+						tokenType.push_back("MULT");
 					}
 					else if (token == ";")
 					{
@@ -128,6 +123,16 @@ void scanner(string path, vector<string> &tokenValue, vector<string> &tokenType)
 					{
 						tokenValue.push_back(token);
 						tokenType.push_back("EQUAL");
+					}
+					else if (token == "(")
+					{
+						tokenValue.push_back(token);
+						tokenType.push_back("OPENBRACKET");
+					}
+					else if (token == ")")
+					{
+						tokenValue.push_back(token);
+						tokenType.push_back("CLOSEDBRACKET");
 					}
 					token = ""; //empty string to start a new one
 				}
