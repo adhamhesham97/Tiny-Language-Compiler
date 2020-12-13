@@ -66,8 +66,17 @@ void scanner(string path, vector<string> &tokenValue, vector<string> &tokenType)
 					//otherwise it's a variable name. like: reading , repeat2 , if_2
 					if (!is_letter(text[i + 1]))
 					{
+						// Pushing the names of the reserved words into TokenType
 						tokenValue.push_back(token);
-						tokenType.push_back("RESERVED");
+						if (token == "if") { tokenType.push_back("IF"); }
+						else if (token == "else") { tokenType.push_back("ELSE"); }
+						else if (token == "repeat") { tokenType.push_back("REPEAT"); }
+						else if (token == "end") { tokenType.push_back("END"); }
+						else if (token == "read") { tokenType.push_back("READ"); }
+						else if (token == "write") { tokenType.push_back("WRITE"); }
+						else if (token == "then") { tokenType.push_back("THEN"); }
+						else if (token == "until") { tokenType.push_back("UNTIL"); }
+						//tokenType.push_back("RESERVED");
 						token = "";	//empty string to start a new one
 					}
 				}
