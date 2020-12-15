@@ -3,9 +3,38 @@
 #include <string>
 #include <vector>
 #include <regex>
+#include <direct.h>
 
 using namespace std;
 
+#include <windows.h>
+
+void read_directory(string name, vector<string>& v)
+{
+	string pattern = name+"\\*.txt";
+	WIN32_FIND_DATA data;
+	HANDLE hFind;
+	wstring stemp = wstring(pattern.begin(), pattern.end());
+	LPCWSTR sw = stemp.c_str();
+	if ((hFind = FindFirstFile(sw, &data)) != INVALID_HANDLE_VALUE) {
+		do {
+			wstring ws(data.cFileName);
+			string filename = string(ws.begin(), ws.end()-4);
+			v.push_back(filename);
+		} while (FindNextFile(hFind, &data) != 0);
+		FindClose(hFind);
+	}
+}
+
+string get_current_path()
+{
+	char cCurrentPath[FILENAME_MAX];
+	if (!_getcwd(cCurrentPath, sizeof(cCurrentPath)))
+	{
+		return ""; //error
+	}
+	return cCurrentPath;
+}
 
 bool is_letter(char c) // Return true if char c is letter
 {
@@ -33,8 +62,10 @@ bool is_symbol(string token) // Return true if token is a valid symbol
 	return token == "+" || token == "-" || token == "<" || token == "/" || token == "*" || token == "(" || token == ")" || token == ":=" || token == ";" || token == "=";
 }
 
+
 void scanner(string path, vector<string> &tokenValue, vector<string> &tokenType, bool &success)
 {
+	success = true;
 	ifstream inFile;
 	inFile.open(path);
 	if (!inFile.good())
@@ -207,33 +238,68 @@ void scanner(string path, vector<string> &tokenValue, vector<string> &tokenType,
 
 int main()
 {
+	string currentDir = get_current_path();
+	/*for (size_t i = 0; i < filenames.size(); i++)
+	{
+		cout << filenames[i] << endl;
+	}*/
 	while (1)
 	{
-		bool success = false;
+		bool success ;
 		string input = "";		// in same file directory
-		char c = "";
-		cout << "\n\t\t\tPlease enter file path or name (if included in this folder): ";
-		getline(std::cin, input);
-		vector<string> tokenValue, tokenType;
-		scanner(input, tokenValue, tokenType, success);
-		ofstream outFile;
-		outFile.open("scanned Tiny code.txt");	// in same file directory 
-
-		if (success)
+		string c;
+		cout << "\n\n\tPlease enter file path or name (if in this folder) or press enter (for all files in current directory): ";
+		getline(cin, input);
+		if (input == "") //all files
 		{
-			for (int i = 0; i < tokenValue.size(); i++)
+			vector<string> filenames;
+			read_directory(currentDir, filenames);
+			string outputdir = currentDir + "\\outputs";
+			mkdir(outputdir.c_str());
+			for (size_t i = 0; i < filenames.size(); i++)
 			{
-				outFile << tokenValue[i] << " , " << tokenType[i] << endl; // Printing the Tokens value & type
+				vector<string> tokenValue, tokenType;
+				scanner(currentDir + "\\" + filenames[i] + ".txt", tokenValue, tokenType, success);
+				ofstream outFile;
+				outFile.open(outputdir+ "\\" + filenames[i] + " - output.txt");	// in same file directory 
+				
+				for (int i = 0; i < tokenValue.size(); i++)
+				{
+					outFile << tokenValue[i] << " , " << tokenType[i] << endl; // Printing the Tokens value & type
+				}
+				outFile.close();
 			}
-			outFile.close();
-			cout << "\n\n\t\t\tDone. Output text file is included in folder with name: scanned Tiny code.txt" << endl;
+			cout << "\t " << filenames.size() << " text files are dound" << endl;
 		}
 		else
-			cout << "\n\n\t\t\t\t\t\tFile not found. \n";
+		{
+			vector<string> tokenValue, tokenType;
+			scanner(input, tokenValue, tokenType, success);
+			ofstream outFile;
+			outFile.open(input.substr(0, input.length()-4) +" - output.txt");	// in same file directory 
+
+			if (success)
+			{
+				for (int i = 0; i < tokenValue.size(); i++)
+				{
+					outFile << tokenValue[i] << " , " << tokenType[i] << endl; // Printing the Tokens value & type
+				}
+				outFile.close();
+				cout << "\n\n\t\t\tDone. Output text file is included in folder with name: scanned Tiny code.txt" << endl;
+			}
+			else
+				cout << "\n\n\t\t\t\t\t\tFile not found. \n";
+		}
+
 		cout << "EXIT CONSOLE? (Y/N) ";
-		cin >> c;
-		if (c == 'Y' || c == 'y')
+		getline(cin, c);
+		if (c == "Y" || c == "y")
 			break;
 		//else clear screen
+		else
+		{
+			system("CLS");
+			cout << flush;
+		}
 	}
 }
