@@ -7,11 +7,19 @@
 using namespace std;
 
 
-bool is_letter(char c) // Return true if char c is letter or number or underscore 
+bool is_letter(char c) // Return true if char c is letter
 {
 	string temp = "";
 	temp = c;
-	regex reg_ex("[a-zA-Z0-9_]");
+	regex reg_ex("[a-zA-Z]");
+	return regex_match(temp, reg_ex);
+}
+
+bool is_letter_number(char c) // Return true if char c is letter or number
+{
+	string temp = "";
+	temp = c;
+	regex reg_ex("[a-zA-Z0-9]");
 	return regex_match(temp, reg_ex);
 }
 
@@ -64,7 +72,7 @@ void scanner(string path, vector<string> &tokenValue, vector<string> &tokenType)
 				{
 					//the next char must not be letter or number or underscore
 					//otherwise it's a variable name. like: reading , repeat2 , if_2
-					if (!is_letter(text[i + 1]))
+					if (!is_letter_number(text[i + 1]))
 					{
 						// Pushing the names of the reserved words into TokenType
 						tokenValue.push_back(token);
@@ -140,19 +148,49 @@ void scanner(string path, vector<string> &tokenValue, vector<string> &tokenType)
 				//Identifiers & numbers
 				// Token is neither a symbol nor a reserved word 
 				// and the next letter isn't letter or number or underscore ( variable name is finished )
-				else if (!is_letter(text[i + 1]) && token != ":")
+				else if (!is_letter_number(text[i + 1]) && token != ":")
 				{
 					if (token[0] >= '0' && token[0] <= '9')	//starts with number means it's a number 
 					{
-						tokenValue.push_back(token);
-						tokenType.push_back("NUMBER");
-						token = ""; //empty string to start a new one
+						bool all_digits = true;
+						for (int j = 0; j < token.length(); j++)
+						{
+							if (token[j] < '0' || token[j] > '9')
+								all_digits = false;
+						}
+						if (all_digits)
+						{
+							tokenValue.push_back(token);
+							tokenType.push_back("NUMBER");
+							token = ""; //empty string to start a new one
+						}
+						else
+						{
+							tokenValue.push_back(token);
+							tokenType.push_back("ERROR");
+							token = ""; //empty string to start a new one
+						}
 					}
 					else //otherwise it's a variable
 					{
-						tokenValue.push_back(token);
-						tokenType.push_back("IDENTIFIER");
-						token = ""; //empty string to start a new one
+						bool all_letters = true;
+						for (int j = 0; j < token.length(); j++)
+						{
+							if (is_letter(token[j]) == false)
+								all_letters = false;
+						}
+						if (all_letters)
+						{
+							tokenValue.push_back(token);
+							tokenType.push_back("IDENTIFIER");
+							token = ""; //empty string to start a new one
+						}
+						else
+						{
+							tokenValue.push_back(token);
+							tokenType.push_back("ERROR");
+							token = ""; //empty string to start a new one
+						}
 					}
 				}
 			}

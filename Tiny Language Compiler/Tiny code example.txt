@@ -1,3 +1,8 @@
+012abc {error}
+abc123 {error}
+abc&123 {error}
+abc:cde {error}
+
 { Sample program in TINY language - computes factorial
 }
 read x;   {input an integer}

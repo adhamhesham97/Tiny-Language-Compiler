@@ -1,3 +1,9 @@
+012abc , ERROR
+abc123 , ERROR
+abc , IDENTIFIER
+&123 , ERROR
+abc , IDENTIFIER
+:cde , ERROR
 read , READ
 x , IDENTIFIER
 ; , SEMICOLON
