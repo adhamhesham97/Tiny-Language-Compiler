@@ -33,10 +33,15 @@ bool is_symbol(string token) // Return true if token is a valid symbol
 	return token == "+" || token == "-" || token == "<" || token == "/" || token == "*" || token == "(" || token == ")" || token == ":=" || token == ";" || token == "=";
 }
 
-void scanner(string path, vector<string> &tokenValue, vector<string> &tokenType)
+void scanner(string path, vector<string> &tokenValue, vector<string> &tokenType, bool &success)
 {
 	ifstream inFile;
 	inFile.open(path);
+	if (!inFile.good())
+	{
+		success = false;
+		return;
+	}
 	string text;
 	bool comment = false;
 	while (inFile >> text) // Parsing the file line by line 
@@ -196,20 +201,39 @@ void scanner(string path, vector<string> &tokenValue, vector<string> &tokenType)
 			}
 		}
 	}
+	success = true;
 	inFile.close();
 }
 
 int main()
 {
-	string input = "Tiny code example.txt";		// in same file directory
-	vector<string> tokenValue, tokenType;
-	scanner(input, tokenValue, tokenType);
-	ofstream outFile;
-	outFile.open("scanned Tiny code.txt");	// in same file directory 
-
-	for (int i = 0; i < tokenValue.size(); i++)
+	while (1)
 	{
-		outFile << tokenValue[i] << " , " << tokenType[i] << endl; // Printing the Tokens value & type
+		bool success = false;
+		string input = "";		// in same file directory
+		char c = "";
+		cout << "\n\t\t\tPlease enter file path or name (if included in this folder): ";
+		getline(std::cin, input);
+		vector<string> tokenValue, tokenType;
+		scanner(input, tokenValue, tokenType, success);
+		ofstream outFile;
+		outFile.open("scanned Tiny code.txt");	// in same file directory 
+
+		if (success)
+		{
+			for (int i = 0; i < tokenValue.size(); i++)
+			{
+				outFile << tokenValue[i] << " , " << tokenType[i] << endl; // Printing the Tokens value & type
+			}
+			outFile.close();
+			cout << "\n\n\t\t\tDone. Output text file is included in folder with name: scanned Tiny code.txt" << endl;
+		}
+		else
+			cout << "\n\n\t\t\t\t\t\tFile not found. \n";
+		cout << "EXIT CONSOLE? (Y/N) ";
+		cin >> c;
+		if (c == 'Y' || c == 'y')
+			break;
+		//else clear screen
 	}
-	outFile.close();
 }

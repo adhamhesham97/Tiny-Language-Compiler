@@ -22,7 +22,7 @@
     <ProjectGuid>{EBD46793-29C6-4843-9062-B69ECF69E117}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>TinyLanguageCompiler</RootNamespace>
-    <WindowsTargetPlatformVersion>10.0.14393.0</WindowsTargetPlatformVersion>
+    <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
